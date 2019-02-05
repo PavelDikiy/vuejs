@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Отрисовка списков</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app" class="container-fluid">
+    <div class="container">
+        <div class="column">
+            <h1 class="display-4 mb-4">Это я!</h1>
+            <ul class="list-group">
+                <li class="list-group-item "
+                    v-for="(item, key, index) in lists"
+                    :key="index">
+                    {{index}}: {{key}} = {{item}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    new Vue({
+      el: "#app",
+      data: {
+        title: "Это я!",
+        lists: {
+          name: "Павел",
+          height: "1.73 м.",
+          width: "65 кг",
+          eyeColor: "коричневый",
+          favoriteFood: "Кортоха",
+        }
+      }
+    });
+
+</script>
+
+</body>
+</html>
