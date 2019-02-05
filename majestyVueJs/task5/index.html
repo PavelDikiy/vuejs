@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Интерактивность</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app" class="container-fluid">
+    <div class="container">
+        <div class="column">
+            <h1 class="display-4 mb-4">Люди Vue</h1>
+            <ul class="list-group">
+                <li class="list-group-item "
+                    v-for="(item, i) in listsMayor"
+                    :key="i">
+                    {{item.name}}
+                    <span class="badge badge-primary badge-pill mt-3">{{item.votes}}</span>
+                    <button type="button" class="btn btn-outline-primary"
+                            @click="addVote(i)">
+                        Голосовать
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <div class="mt-4">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                       placeholder="Enter email"
+                       @keyup.delete="resetVotes"
+                >
+            </div>
+            <div>
+                <h2 class="display-6 mt-4">Наш мэр - {{firstMayor.name}}!</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**/
+    new Vue({
+      el: "#app",
+      data: {
+        title: "Это я!",
+        listsMayor: [
+          {name: "Мистер Черный", votes: 1},
+          {name: "Мистер Розовый", votes: 0},
+          {name: "Мистер Белый", votes: 0},
+          {name: "Мистер Коричневый", votes: 0}
+        ]
+      },
+      computed: {
+        firstMayor () {
+          let sortMayor = this.listsMayor.slice().sort((objA, objB) => {
+            return objB.votes - objA.votes
+          })
+
+          return sortMayor[0]
+        }
+      },
+      methods: {
+        addVote (ind) {
+          this.listsMayor[ind].votes += 1
+        },
+        resetVotes () {
+          this.listsMayor = this.listsMayor.map((item) => {
+            item.votes = 0
+            return item
+          })
+        }
+      }
+    });
+
+</script>
+
+</body>
+</html>
