@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app" class="container-fluid">
+    <div class="container">
+        <div class="column mb-3">
+            <h1 class="display-4 mb-4">Люди Галии!</h1>
+            <ul class="list-group">
+                <li class="list-group-item "
+                    v-for="(item, i) in sortPeopleGulls"
+                    :key="i">
+                    {{item.name}}
+                    <span class="badge badge-primary badge-pill mt-3">{{item.age}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="column mb-4">
+            <h2 class="display-4 mb-4">"Старые" люди Галии, старше <input type="number" style="width:100px"
+                                                                          v-model="numAge"> лет</h2>
+            <div class="mt-4">
+                <ul class="list-group">
+                    <li class="list-group-item "
+                        v-for="(item, i) in filtPeopleGulls"
+                        :key="i">
+                        {{item.name}}
+                        <span class="badge badge-primary badge-pill mt-3">{{item.age}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**/
+    new Vue({
+      el: "#app",
+      data: {
+        title: "Фильтры",
+        numAge: 65,
+        peopleGulls: [
+          {name: "Астерикс", age: 32},
+          {name: "Ветераникс", age: 103},
+          {name: "Обеликс", age: 33},
+          {name: "Маджестикс", age: 82},
+          {name: "Юлий Цезарь", age: 66}
+        ]
+      },
+      computed: {
+        sortPeopleGulls () {
+          return this.peopleGulls.slice().sort((objA, objB) => {
+            return objA.age - objB.age
+          })
+        },
+        filtPeopleGulls () {
+          return this.peopleGulls.filter((item) => {
+            return item.age > this.numAge
+          })
+        }
+      }
+    });
+
+</script>
+
+</body>
+</html>
