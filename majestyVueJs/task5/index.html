@@ -11,7 +11,7 @@
 <div id="app" class="container-fluid">
     <div class="container">
         <div class="column">
-            <h1 class="display-4 mb-4">Люди Vue</h1>
+            <h1 class="display-4 mb-4">{{title}}</h1>
             <ul class="list-group">
                 <li class="list-group-item "
                     v-for="(item, i) in listsMayor"
@@ -44,7 +44,7 @@
     new Vue({
       el: "#app",
       data: {
-        title: "Это я!",
+        title: "Люди Vue",
         listsMayor: [
           {name: "Мистер Черный", votes: 1},
           {name: "Мистер Розовый", votes: 0},

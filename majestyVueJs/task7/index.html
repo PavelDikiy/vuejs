@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Компоненты</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app" class="container-fluid">
+    <div class="container">
+        <div class="column mb-3">
+            <h1 class="display-4 mb-4">{{title}}</h1>
+            <ul class="list-group">
+                <planet
+                        v-for="(planet, i) in planets"
+                        :key="i"
+                        :planetsprop="planet"
+                ></planet>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<template id="planet-template">
+    <li class="list-group-item ">
+        Планета: {{planetsprop.name}} Кол-во посещений:
+        <span class="badge badge-primary badge-pill mt-3">{{planetsprop.numVisits}}</span>
+        <button type="button" class="btn btn-outline-primary"
+                v-show="isShow"
+                @click="visits">
+            Посетить
+        </button>
+        <span v-show="isVisits" class="fa fa-rocket fa-2x pull-right" aria-hidden="true">
+    </li>
+</template>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+  Vue.component('planet',{
+  template: "#planet-template",
+  props: ['planetsprop'],
+  methods:{
+    visits() {
+      this.planetsprop.numVisits += 1
+    }
+  },
+  computed:{
+    isShow () {
+      return this.planetsprop.numVisits < 3
+    },
+    isVisits () {
+      return this.planetsprop.numVisits > 0
+    }
+  }
+});
+    new Vue({
+      el: '#app',
+      data: {
+        title: 'Куда бы вы хотели полететь',
+        planets: [
+          {name: "Меркурий", numVisits: 0},
+          {name: "Венера", numVisits: 0},
+          {name: "Марс", numVisits: 0},
+          {name: "Юпитер", numVisits: 0}
+        ]
+      }
+    })
+
+</script>
+
+</body>
+</html>
