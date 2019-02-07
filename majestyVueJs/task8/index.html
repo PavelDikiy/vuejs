@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользовательские события</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app" class="container-fluid">
+    <div class="container">
+        <div class="column mb-3">
+            <h1 class="display-4 mb-4">{{title}}</h1>
+            <ul class="list-group">
+                <chariot
+                        v-for="(chariot, i) in chariots"
+                        :key="i"
+                        :chariotprop="chariot"
+                        :ccprop="currentChariot"
+                        @chariotcnt="countChariots"
+                ></chariot>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<template id="chariot-template">
+    <li class="list-group-item ">
+        У колесницы "{{chariotprop.name}}"
+        <span class="badge badge-primary badge-pill mt-3">{{chariotprop.horses}}</span> лошадей!
+
+        <button type="button" class="btn btn-primary ml-3"
+                @click="currentChariot"
+                :disabled="active"
+        >
+            {{textBtn}}
+        </button>
+
+
+    </li>
+</template>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+  Vue.component('chariot', {
+    template: '#chariot-template',
+    props: ['chariotprop', 'ccprop'],
+    data(){
+      return {
+        active: false,
+        nowTextBtn: 'Выбрать колесницу'
+      }
+    },
+    methods: {
+      currentChariot (){
+        this.$emit('chariotcnt', this.chariotprop.horses)
+      }
+    },
+    computed: {
+      textBtn(){
+        if (this.ccprop && this.ccprop > this.chariotprop.horses) {
+          this.nowTextBtn = "Отклонить лошадей";
+          this.active = false;
+        } else if (this.ccprop && this.ccprop < this.chariotprop.horses) {
+          this.nowTextBtn = "Нанять лошадей";
+          this.active = false;
+        } else if (this.ccprop && this.ccprop === this.chariotprop.horses) {
+          this.nowTextBtn = "В путь!";
+          this.active = true;
+        }
+        return this.nowTextBtn
+      }
+    }
+  });
+
+  new Vue({
+    el: '#app',
+    data: {
+      title: 'Магазин колесниц',
+      currentChariot: '',
+      chariots: [
+        {name: "Олимп", horses: 4},
+        {name: "Саггита", horses: 3},
+        {name: "Икар", horses: 2},
+        {name: "Абраксас", horses: 1}
+      ]
+    },
+    methods: {
+      countChariots (count2) {
+        this.currentChariot = count2
+      }
+    }
+  })
+
+</script>
+
+</body>
+</html>
