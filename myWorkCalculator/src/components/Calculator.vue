@@ -83,8 +83,8 @@
             </thead>
             <tr v-for="(item, ind) in jsonData" :key="ind" :class="{'active' : ind === rateId}">
                 <td>{{item.rate}}
-                    <button type="button" class="btn ml-3"
-                            :class="[(ind === rateId) ? 'btn-primary' : 'btn-outline-primary']"
+                    <button type="button" class="btn btn-outline-primary ml-3"
+                            :class="[(ind === rateId) ? 'active' : '']"
                             @click="selectRates(ind)">Выбрать
                     </button>
                 </td>
