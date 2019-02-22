@@ -29,6 +29,11 @@
     props: ['resultObj'],
     data(){
       return {}
+    },
+    created(){
+      if(!this.resultObj){
+        this.$router.push({ name: 'calculator'})
+      }
     }
   }
 </script>
