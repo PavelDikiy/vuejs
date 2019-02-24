@@ -40,7 +40,12 @@
                         </div>
 
                     </div>
-                    <button class="btn btn-success" @click="goToResult">Взять кредит</button>
+                    <router-link
+                            :to="{ name: 'results', params: {result: this.resultObj}}"
+                            tag="button"
+                            class="btn btn-success"
+                    > Взять кредит
+                    </router-link>
                 </div>
                 <div class="col-sm">
                     <div class="resultCredit">
@@ -67,48 +72,38 @@
         </div>
 
         <h3 class="mt-4">Таблица ставок</h3>
-        <div v-if="isPreloader">
-            <preloader></preloader>
-        </div>
-        <div v-else>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Размер ставки (%)</th>
-                    <th scope="col">Валюта</th>
-                    <th scope="col">Сума от, до</th>
-                    <th scope="col">Срок от, до</th>
-                </tr>
-                </thead>
-                <tr v-for="(item, ind) in creditList" :key="ind" :class="{'active' : ind === rateId}">
-                    <td>{{item.rate}}
-                        <button type="button" class="btn btn-outline-primary ml-3"
-                                :class="[(ind === rateId) ? 'active' : '']"
-                                @click="selectRates(ind)">Выбрать
-                        </button>
-                    </td>
-                    <td>{{item.activeCurrency}}</td>
-                    <td>{{item.minSum / 100}} - {{item.maxSum / 100}} тыс.</td>
-                    <td>{{item.minTerm}} - {{item.maxTerm}} мес.</td>
-                </tr>
-            </table>
-        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Размер ставки (%)</th>
+                <th scope="col">Валюта</th>
+                <th scope="col">Сума от, до</th>
+                <th scope="col">Срок от, до</th>
+            </tr>
+            </thead>
+            <tr v-for="(item, ind) in jsonData" :key="ind" :class="{'active' : ind === rateId}">
+                <td>{{item.rate}}
+                    <button type="button" class="btn btn-outline-primary ml-3"
+                            :class="[(ind === rateId) ? 'active' : '']"
+                            @click="selectRates(ind)">Выбрать
+                    </button>
+                </td>
+                <td>{{item.activeCurrency}}</td>
+                <td>{{item.minSum / 100}} - {{item.maxSum / 100}} тыс.</td>
+                <td>{{item.minTerm}} - {{item.maxTerm}} мес.</td>
+            </tr>
+        </table>
     </div>
 
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex';
-  import {getJsonData} from '../api/dataFetch';
-  import Preloader from './Preloader.vue';
+  import jsonData from '../test.json'
 
   export default{
-    components: {
-      Preloader
-    },
     data(){
       return {
-        isPreloader: true,
+        jsonData,
         rateId: -1,
         selectSum: 0,
         selectCur: '',
@@ -116,34 +111,16 @@
       }
     },
     methods: {
-      ...mapActions([
-        'getCreditList',
-        'completeResult'
-      ]),
       selectRates(id){
         this.rateId = id;
         this.selectSum = this.selectedRate["minSum"];
         this.selectCur = this.selectedRate["activeCurrency"];
         this.selectTerm = this.selectedRate["minTerm"];
-      },
-      goToResult(){
-        this.completeResult([
-          {name: "Ставка", value: this.selectedRate.rate, symbol: '%'},
-          {name: "Сумма", value: this.selectSum, symbol: this.correctCur},
-          {name: "Срок", value: this.selectTerm, symbol: 'мес.'},
-          {name: "Полная сумма", value: this.fullSum, symbol: this.correctCur},
-          {name: "Ежемесячный платеж", value: this.monthPayment, symbol: this.correctCur},
-          {name: "Переплата", value: this.overpayment, symbol: this.correctCur}
-        ]);
-        this.$router.push({name: 'results'});
       }
     },
     computed: {
-      ...mapGetters([
-        'creditList'
-      ]),
       selectedRate(){
-        let oneObj = this.creditList.filter((item) => {
+        let oneObj = jsonData.filter((item) => {
           return item.id === this.rateId;
         })[0];
         oneObj["arrTerm"] = [];
@@ -173,14 +150,17 @@
       },
       correctCur(){
         return (this.selectCur == "гривны") ? 'грн.' : '$'
+      },
+      resultObj(){
+        return [
+          {name: "Ставка", value: this.selectedRate.rate, symbol: '%'},
+          {name: "Сумма", value: this.selectSum, symbol: this.correctCur},
+          {name: "Срок", value: this.selectTerm, symbol: 'мес.'},
+          {name: "Полная сумма", value: this.fullSum, symbol: this.correctCur},
+          {name: "Ежемесячный платеж", value: this.monthPayment, symbol: this.correctCur},
+          {name: "Переплата", value: this.overpayment, symbol: this.correctCur}
+        ]
       }
-    },
-    created(){
-      getJsonData()
-        .then((data) => {
-          this.getCreditList(data);
-          this.isPreloader = false;
-        });
     }
   }
 </script>
@@ -219,9 +199,10 @@
         font-weight: 600;
     }
 
+
     .resultCredit .big-text {
         font-size: 30px;
-        font-weight: bold;
+        font-weight:bold;
     }
 
     input[type=range] {

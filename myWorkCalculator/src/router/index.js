@@ -9,9 +9,10 @@ Vue.use(VueRouter);
 const routes = [
   {path: '/', name: 'home', component: Home},
   {path: '/calculator', name: 'calculator', component: Calculator},
-  {path: '/result',
-    props: (route) => ({ resultObj: route.params.result }),
-    name: 'results', component: Results},
+  {path: '/results', name: 'results', component: Results},
+  /*  {path: '/result',
+   props: (route) => ({ resultObj: route.params.result }),
+   name: 'results', component: Results},*/
 ];
 
 export default new VueRouter({

@@ -1,29 +1,10 @@
-# my-work
+# Работа над списком
 
-## Project setup
 ```
-yarn install
-```
+1. Вывести данные в виде таблицы.
+2. Реализовать живой поиск.
+3. Вывести поле Итого - сумму по всем элементам поля currency.
+4. Реализовать сортировку данных по полям name, location, currency.
+5. Реализовать живое редактирование данных в каждом строке таблицы (Поле Итого должно пересчитываться в зависимости от введенных новых данных).
 
-### Compiles and hot-reloads for development
 ```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

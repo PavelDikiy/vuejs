@@ -10,7 +10,7 @@
                     <th>Наименование</th>
                     <th>Значение</th>
                 </tr>
-                <tr v-for="(item, ind) in getResult" :key="ind">
+                <tr v-for="(item, ind) in resultObj" :key="ind">
                     <td>{{item.name}} </td>
                     <td>{{item.value | spaceNumber}} {{item.symbol}}</td>
                 </tr>
@@ -25,16 +25,14 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
   export default{
-    computed: {
-      ...mapGetters([
-        'getResult'
-      ])
+    props: ['resultObj'],
+    data(){
+      return {}
     },
     created(){
-      if (!this.getResult) {
-        this.$router.push({name: 'calculator'})
+      if(!this.resultObj){
+        this.$router.push({ name: 'calculator'})
       }
     }
   }
