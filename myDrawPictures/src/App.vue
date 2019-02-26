@@ -42,7 +42,7 @@
 
     #container.complete {
         animation-name: shadow;
-        animation-duration: 1.1s;
+        animation-duration: 3.5s;
         animation-iteration-count: 1;
     }
 
@@ -89,5 +89,9 @@
         position: absolute;
         will-change: transform, opacity;
         transition: transform 1s, opacity 1s;
+    }
+
+    #container.complete img {
+        transition: transform 3s, opacity 3s;
     }
 </style>
