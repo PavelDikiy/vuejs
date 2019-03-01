@@ -37,17 +37,17 @@
                                v-model="addCode"
                         >
                     </div>
-                    <button class="btn btn-success" @click="addCoursea">Add</button>
+                    <button class="btn btn-success" @click="addCourse">Add</button>
                     <button class="btn btn-danger ml-3" @click="cancelAdd">Cancel</button>
                 </div>
             </div>
         </div>
-        <table class="table mt-4">
-            <thead>
+        <table class="table mt-4" v-if="listCourses.length > 0">
+            <thead class="thead-light">
             <tr>
-                <th>Name</th>
-                <th>Code</th>
-                <th>Action</th>
+                <th scope="col">Name</th>
+                <th scope="col">Code</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -61,7 +61,7 @@
                 </td>
                 <td>
                     <button v-if="editObj.id === course.id" class="btn btn-sm btn-success mr-3"
-                            @click="editCourseClose">Save
+                            @click="editCourseSave">Save
                     </button>
                     <button class="btn btn-sm btn-info" @click="editCourse(course.id)">Edit</button>
                     <button class="btn btn-sm btn-danger ml-3" @click="delItem(course.id)">Delete</button>
@@ -69,12 +69,13 @@
             </tr>
             </tbody>
         </table>
+        <div v-else>На данный момент курсов нет. </div>
     </div>
 
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
+  import {mapGetters, mapActions} from 'vuex';
   export default{
     data(){
       return {
@@ -86,36 +87,36 @@
       }
     },
     methods: {
+      ...mapActions([
+        'addCourseSt',
+        'editCourseSt',
+        'delCourseSt',
+      ]),
       cancelAdd: function () {
         this.isAdd = false;
         this.addName = '';
         this.addCode = '';
       },
-      addCoursea: function () {
-        this.listCourses.push({
-          id: this.listCourses.length,
+      addCourse: function () {
+        const objAdd = {
           name: this.addName,
           code: this.addCode
-        });
+        };
+        this.addCourseSt(objAdd);
         this.addName = '';
         this.addCode = '';
       },
       editCourse(id){
-        if (Object.keys(this.editObj).length === 0) {
-          this.editObj = this.listCourses.filter((item) => {
-            return item.id === id;
-          })[0];
-        } else {
-          this.editObj = {};
-        }
+        this.editObj = this.listCourses.filter((item) => {
+          return item.id === id;
+        })[0];
       },
-      editCourseClose(){
+      editCourseSave(){
+        this.editCourseSt(this.editObj)
         this.editObj = {};
       },
       delItem(id){
-        this.listCourses = this.FiltListCourses.filter((item) => {
-          return item.id !== id;
-        });
+        this.delCourseSt(id);
       }
     },
     computed: {
