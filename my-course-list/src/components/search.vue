@@ -7,12 +7,22 @@
                aria-label="Search"
                aria-describedby="basic-addon1"
                v-model="yourSearch"
+               @input="search"
         >
     </div>
 </template>
 
 <script>
-    export default{
-
+  export default{
+    data(){
+      return {
+        yourSearch: ''
+      }
+    },
+    methods: {
+      search(){
+        this.$emit('search', this.yourSearch);
+      }
     }
+  }
 </script>

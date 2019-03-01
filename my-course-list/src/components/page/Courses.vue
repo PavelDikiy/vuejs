@@ -3,7 +3,8 @@
         <h1>Courses</h1>
         <div class="row">
             <div class="col-sm">
-                <div class="input-group mb-3">
+                <Search @search="onSearch"></Search>
+<!--                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">Search for Courses</span>
                     </div>
@@ -12,10 +13,11 @@
                            aria-describedby="basic-addon1"
                            v-model="yourSearch"
                     >
-                </div>
+                </div>-->
             </div>
             <div class="col-sm">
-                <button v-if="!isAdd" class="btn btn-success" @click="isAdd=true">Add Course</button>
+                <AddCourses></AddCourses>
+<!--                <button v-if="!isAdd" class="btn btn-success" @click="isAdd=true">Add Course</button>
                 <div v-else>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -39,10 +41,11 @@
                     </div>
                     <button class="btn btn-success" @click="addCourse">Add</button>
                     <button class="btn btn-danger ml-3" @click="cancelAdd">Cancel</button>
-                </div>
+                </div>-->
             </div>
         </div>
-        <table class="table mt-4" v-if="listCourses.length > 0">
+        <ListCourses :arrayObj="FiltListCourses"></ListCourses>
+<!--        <table class="table mt-4" v-if="listCourses.length > 0">
             <thead class="thead-light">
             <tr>
                 <th scope="col">Name</th>
@@ -69,30 +72,42 @@
             </tr>
             </tbody>
         </table>
-        <div v-else>На данный момент курсов нет. </div>
+        <div v-else>На данный момент курсов нет. </div>-->
     </div>
 
 </template>
 
 <script>
   import {mapGetters, mapActions} from 'vuex';
+  import Search from '../search.vue';
+  import AddCourses from '../coursers/addItem.vue';
+  import ListCourses from '../coursers/listItems.vue';
+
   export default{
+    components:{
+      Search,
+      AddCourses,
+      ListCourses
+    },
     data(){
       return {
         yourSearch: '',
-        addName: '',
+/*        addName: '',
         addCode: '',
         editObj: {},
-        isAdd: false
+        isAdd: false*/
       }
     },
     methods: {
-      ...mapActions([
+/*      ...mapActions([
         'addCourseSt',
         'editCourseSt',
         'delCourseSt',
-      ]),
-      cancelAdd: function () {
+      ]),*/
+      onSearch(data){
+        this.yourSearch = data;
+      },
+/*      cancelAdd: function () {
         this.isAdd = false;
         this.addName = '';
         this.addCode = '';
@@ -112,12 +127,12 @@
         })[0];
       },
       editCourseSave(){
-        this.editCourseSt(this.editObj)
+        this.editCourseSt(this.editObj);
         this.editObj = {};
       },
       delItem(id){
         this.delCourseSt(id);
-      }
+      }*/
     },
     computed: {
       ...mapGetters([

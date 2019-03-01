@@ -1,13 +1,5 @@
-<table class="table mt-4" v-if="listCourses.length > 0">
-    <thead class="thead-light">
+<template>
     <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Code</th>
-        <th scope="col">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="course in FiltListCourses" :key="course.id">
         <td>
             <input v-if="editObj.id === course.id" type="text" v-model="editObj.name">
             <span v-else>{{course.name}}</span></td>
@@ -23,6 +15,40 @@
             <button class="btn btn-sm btn-danger ml-3" @click="delItem(course.id)">Delete</button>
         </td>
     </tr>
-    </tbody>
-</table>
-<div v-else>На данный момент курсов нет. </div>
+</template>
+
+<script>
+  import {mapGetters, mapActions} from 'vuex';
+  export default{
+    props: ['course'],
+    data(){
+      return{
+        editObj: {}
+      }
+    },
+    methods: {
+      ...mapActions([
+        'addCourseSt',
+        'editCourseSt',
+        'delCourseSt',
+      ]),
+      editCourse(id){
+        this.editObj = this.listCourses.filter((item) => {
+          return item.id === id;
+        })[0];
+      },
+      editCourseSave(){
+        this.editCourseSt(this.editObj);
+        this.editObj = {};
+      },
+      delItem(id){
+        this.delCourseSt(id);
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'listCourses'
+      ])
+    }
+  }
+</script>
