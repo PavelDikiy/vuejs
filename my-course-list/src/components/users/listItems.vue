@@ -4,12 +4,13 @@
             <thead class="thead-light">
             <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Code</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr is="Course" v-for="course in paginatedData" :course="course" :key="course.id"></tr>
+            <tr is="User" v-for="user in paginatedData" :user="user" :key="user.id"></tr>
             </tbody>
         </table>
         <Pagination
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-  import Course from './item.vue';
+  import User from './item.vue';
   import Pagination from '../pagination.vue';
 
   export default{
@@ -40,7 +41,7 @@
       }
     },
     components: {
-      Course,
+      User,
       Pagination
     },
     data(){

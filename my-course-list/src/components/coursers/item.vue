@@ -22,13 +22,12 @@
   export default{
     props: ['course'],
     data(){
-      return{
+      return {
         editObj: {}
       }
     },
     methods: {
       ...mapActions([
-        'addCourseSt',
         'editCourseSt',
         'delCourseSt',
       ]),

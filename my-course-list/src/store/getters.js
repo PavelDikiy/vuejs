@@ -3,5 +3,5 @@ export const listCourses = (state) =>{
 };
 
 export const listUsers = (state) =>{
-  return state.listUsers;
+  return state.listUsers.slice().reverse();
 };

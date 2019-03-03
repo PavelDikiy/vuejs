@@ -1,4 +1,4 @@
 export default {
   listCourses: JSON.parse(localStorage.getItem('listCourses')) || [],
-  listUsers: []
+  listUsers: JSON.parse(localStorage.getItem('listUsers')) || []
 }
