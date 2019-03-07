@@ -1,15 +1,15 @@
 <template>
     <div>
-        <h1 class="mb-3">Users</h1>
+        <h1 class="mb-3">Courses</h1>
         <div class="row">
             <div class="col-sm">
-                <Search @search="onSearch" title="users"></Search>
+                <Search @search="onSearch" title="courses"></Search>
             </div>
             <div class="col-sm">
-                <AddUsers></AddUsers>
+                <AddCourses></AddCourses>
             </div>
             <div class="col-sm">
-                <div class="input-group mb-3" v-if="FiltListUsers.length > 0">
+                <div class="input-group mb-3" v-if="FiltListCourses.length > 0">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Show items</span>
                     </div>
@@ -24,23 +24,23 @@
             </div>
         </div>
 
-        <ListUsers v-if="FiltListUsers.length > 0" :arrayObj="FiltListUsers" :size="size"></ListUsers>
-        <div v-else>На данный момент пользователей нет. </div>
+        <ListCourses v-if="FiltListCourses.length > 0" :arrayObj="FiltListCourses" :size="size"></ListCourses>
+        <div v-else>На данный момент курсов нет. </div>
     </div>
 
 </template>
 
 <script>
   import {mapGetters} from 'vuex';
-  import Search from '../search.vue';
-  import AddUsers from '../users/addItem.vue';
-  import ListUsers from '../users/listItems.vue';
+  import Search from '../components/search.vue';
+  import AddCourses from '../components/coursers/addItem.vue';
+  import ListCourses from '../components/coursers/listItems.vue';
 
   export default{
     components: {
       Search,
-      AddUsers,
-      ListUsers
+      AddCourses,
+      ListCourses
     },
     data(){
       return {
@@ -55,10 +55,10 @@
     },
     computed: {
       ...mapGetters([
-        'listUsers'
+        'listCourses'
       ]),
-      FiltListUsers(){
-        return this.listUsers.filter((item) => {
+      FiltListCourses(){
+        return this.listCourses.filter((item) => {
           return item.name.includes(this.yourSearch);
         });
       }
